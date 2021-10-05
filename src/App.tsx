@@ -1,45 +1,46 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useRef, useState } from 'react'
+import speak from './modules/speak'
 
-function App () {
-  const [count, setCount] = useState(0)
+export default function App () {
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [message, setMessage] = useState<string>('大會要求全黨以「習近平新時代中國特色社會主義思想」統一思想和行動')
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo"/>
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  )
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+
+  const play = async () => {
+    if (videoRef.current) {
+      setIsPlaying(true)
+      videoRef.current.currentTime = 0
+      await speak(new SpeechSynthesisUtterance(message))
+      videoRef.current.play()
+    }
+  }
+
+  const handleVideoEnded = () => {
+    setIsPlaying(false)
+  }
+
+  return <>
+    <h1>人民大會堂</h1>
+    <input
+      type="text"
+      value={message}
+      onChange={e => setMessage(e.target.value)}
+    />
+    <button
+      type="button"
+      onClick={play}
+      disabled={isPlaying}
+    >開始表決</button>
+
+    <br/>
+    <video
+      width="500"
+      ref={videoRef}
+      onEnded={handleVideoEnded}
+    >
+      <source src="/voting.mp4" type="video/mp4"/>
+    </video>
+
+  </>
 }
-
-export default App
