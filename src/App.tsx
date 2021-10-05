@@ -39,7 +39,7 @@ export default function App () {
       ref={videoRef}
       onEnded={handleVideoEnded}
     >
-      <source src="/voting.mp4" type="video/mp4"/>
+      <source src="./voting.mp4" type="video/mp4"/>
     </video>
 
   </>
