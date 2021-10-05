@@ -9,10 +9,12 @@ export default function App () {
 
   const play = async () => {
     if (videoRef.current) {
+      videoRef.current.play()
+      videoRef.current.pause()
       setIsPlaying(true)
       videoRef.current.currentTime = 0
       await speak(new SpeechSynthesisUtterance(message))
-      videoRef.current.play()
+      await videoRef.current.play()
     }
   }
 
@@ -35,6 +37,7 @@ export default function App () {
 
     <br/>
     <video
+      playsInline
       width="500"
       ref={videoRef}
       onEnded={handleVideoEnded}
