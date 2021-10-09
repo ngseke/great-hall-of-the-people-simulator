@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import clsx from 'clsx'
 
 import Button from './Button'
 import Card from './Card'
@@ -8,6 +9,8 @@ import Title from './Title'
 import speak from '../modules/speak'
 import useMessageState from '../hooks/useMessageState'
 import VideoOverlay from './VideoOverlay'
+
+import opening from '../assests/opening.png'
 
 export default function Voter () {
   const [isVideoLoading, setIsVideoLoading] = useState(false)
@@ -73,6 +76,14 @@ export default function Voter () {
             </Card>
           </div>
           <div className="w-full h-auto lg:w-[500px] lg:h-[281.25px] 2xl:w-[600px] 2xl:h-[337.5px] relative transform lg:-translate-x-10 lg:translate-y-10 rounded-lg overflow-hidden shadow-xl">
+            <VideoOverlay
+              className={clsx('transition duration-700', {
+                'opacity-0': isPlaying,
+                'opacity-100': isVoting && !isPlaying,
+              })}
+            >
+              <img src={opening} width={1920} height={1080}/>
+            </VideoOverlay>
             <video
               playsInline
               ref={videoRef}

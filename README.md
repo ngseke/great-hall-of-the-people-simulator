@@ -21,14 +21,5 @@
 </div>
 
 
-
-## Todos
-
-- [x] Install Tailwind CSS
-- [x] Styles
-- [x] Favicon
-- [x] Readme
-- [ ] Opening Image
-
 ## Credits
 - https://www.youtube.com/watch?v=Fdc-m5hTRpk
