@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import { useEffect, useRef, useState } from 'react'
 
 import Button from './Button'
@@ -10,6 +9,7 @@ import speak from '../modules/speak'
 import useMessageState from '../hooks/useMessageState'
 
 export default function Voter () {
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false)
   const [isVoting, setIsVoting] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const { message, setMessage } = useMessageState(
@@ -38,10 +38,6 @@ export default function Voter () {
     await videoRef.current.play()
   }
 
-  const handleVideoEnded = () => {
-    setIsPlaying(false)
-  }
-
   useEffect(() => {
     if (!isPlaying) setIsVoting(false)
   }, [isPlaying])
@@ -50,34 +46,44 @@ export default function Voter () {
     <div className="flex flex-col min-h-[100vh]">
       <div className="container flex-1 py-6 sm:py-8 px-4 space-y-6">
         <Title/>
-        <div className="block lg:flex items-start">
-          <Card className="lg:w-[700px] mb-6 lg:mb-0">
-            <form
-              className="flex flex-col pr-0 lg:pr-12"
-              onSubmit={(e) => {
-                e.preventDefault()
-                play()
-              }}
-            >
-              <Field
-                value={message}
-                onChange={e => setMessage(e.target.value)}
-              />
-              <div className="flex justify-start lg:justify-end">
-                <Button
-                  disabled={!message || isVoting}
-                  voting={isVoting}
+        <div className="flex flex-wrap justify-center items-start">
+          <div className="flex-1">
+            <Card className="mb-6 lg:mb-0">
+              <form
+                className="flex flex-col pr-0 lg:pr-12"
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  play()
+                }}
+              >
+                <Field
+                  value={message}
+                  onChange={e => setMessage(e.target.value)}
                 />
-              </div>
-            </form>
-          </Card>
-          <div className="transform lg:-translate-x-10 lg:translate-y-10">
+                <div className="flex justify-start lg:justify-end">
+                  <Button
+                    disabled={!message || isVoting || !isVideoLoaded}
+                    voting={isVoting}
+                  />
+                </div>
+              </form>
+            </Card>
+          </div>
+          <div className="w-full h-auto lg:w-[500px] lg:h-[281.25px] 2xl:w-[600px] 2xl:h-[337.5px] relative transform lg:-translate-x-10 lg:translate-y-10">
+            {
+              !isVideoLoaded &&
+                <div className="w-full h-full flex justify-center items-center absolute">
+                  <div className="font-bold text-9xl text-yellow-400 animate-pulse select-none">☭</div>
+                </div>
+            }
             <video
               playsInline
-              width="500"
               ref={videoRef}
-              onEnded={handleVideoEnded}
-              className={clsx('bg-white rounded-lg shadow-xl')}
+              width={1920}
+              height={1080}
+              onLoadedData={() => setIsVideoLoaded(true)}
+              onEnded={() => setIsPlaying(false)}
+              className="w-full h-full bg-red-600 rounded-lg shadow-xl"
             >
               <source src="./voting.mp4" type="video/mp4"/>
             </video>
