@@ -6,7 +6,11 @@ export default function Footer () {
     <div className="bg-gray-100 mt-10">
       <div className="flex flex-col space-y-2 container px-4 py-6">
         <div>
-          <a href="https://github.com/ngseke/great-hall-of-the-people-simulator" target="_blank" rel="noreferrer">
+          <a
+            className="inline-block"
+            href="https://github.com/ngseke/great-hall-of-the-people-simulator" target="_blank"
+            rel="noreferrer"
+          >
             <img className="w-6 h-6" src={github} alt="GitHub"/>
           </a>
         </div>
