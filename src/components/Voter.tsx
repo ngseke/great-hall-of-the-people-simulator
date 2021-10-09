@@ -48,6 +48,8 @@ export default function Voter () {
     if (!isPlaying) setIsVoting(false)
   }, [isPlaying])
 
+  const size = { width: 1920, height: 1080 }
+
   return (
     <div className="flex flex-col min-h-[100vh]">
       <div className="container flex-1 py-6 sm:py-8 px-4 space-y-6">
@@ -78,17 +80,20 @@ export default function Voter () {
           <div className="w-full h-auto lg:w-[500px] lg:h-[281.25px] 2xl:w-[600px] 2xl:h-[337.5px] relative transform lg:-translate-x-10 lg:translate-y-10 rounded-lg overflow-hidden shadow-xl">
             <VideoOverlay
               className={clsx('transition duration-700', {
-                'opacity-0': isPlaying,
+                'opacity-0': isPlaying || isVideoLoading,
                 'opacity-100': isVoting && !isPlaying,
               })}
             >
-              <img src={opening} width={1920} height={1080}/>
+              <img
+                src={opening}
+                className="w-full h-full"
+                {...size}
+              />
             </VideoOverlay>
             <video
               playsInline
               ref={videoRef}
-              width={1920}
-              height={1080}
+              {...size}
               onLoadStart={() => setIsVideoLoading(true)}
               onLoadedData={() => setIsVideoLoading(false)}
               onEnded={() => setIsPlaying(false)}
