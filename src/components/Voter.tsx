@@ -7,11 +7,14 @@ import Footer from './Footer'
 import Title from './Title'
 import speak from '../modules/speak'
 import useMessageState from '../hooks/useMessageState'
+import VideoOverlay from './VideoOverlay'
 
 export default function Voter () {
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false)
+  const [isVideoLoading, setIsVideoLoading] = useState(false)
+  const [isVideoError, setIsVideoError] = useState(false)
   const [isVoting, setIsVoting] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
+
   const { message, setMessage } = useMessageState(
     '大會要求全黨以「習近平新時代中國特色社會主義思想」統一思想和行動'
   )
@@ -62,31 +65,44 @@ export default function Voter () {
                 />
                 <div className="flex justify-start lg:justify-end">
                   <Button
-                    disabled={!message || isVoting || !isVideoLoaded}
+                    disabled={!message || isVoting || isVideoLoading}
                     voting={isVoting}
                   />
                 </div>
               </form>
             </Card>
           </div>
-          <div className="w-full h-auto lg:w-[500px] lg:h-[281.25px] 2xl:w-[600px] 2xl:h-[337.5px] relative transform lg:-translate-x-10 lg:translate-y-10">
-            {
-              !isVideoLoaded &&
-                <div className="w-full h-full flex justify-center items-center absolute">
-                  <div className="font-bold text-9xl text-yellow-400 animate-pulse select-none">☭</div>
-                </div>
-            }
+          <div className="w-full h-auto lg:w-[500px] lg:h-[281.25px] 2xl:w-[600px] 2xl:h-[337.5px] relative transform lg:-translate-x-10 lg:translate-y-10 rounded-lg overflow-hidden shadow-xl">
             <video
               playsInline
               ref={videoRef}
               width={1920}
               height={1080}
-              onLoadedData={() => setIsVideoLoaded(true)}
+              onLoadStart={() => setIsVideoLoading(true)}
+              onLoadedData={() => setIsVideoLoading(false)}
               onEnded={() => setIsPlaying(false)}
-              className="w-full h-full bg-red-600 rounded-lg shadow-xl"
+              onError={() => setIsVideoError(true)}
+              className="w-full h-full bg-white"
             >
               <source src="./voting.mp4" type="video/mp4"/>
             </video>
+            {
+              isVideoLoading &&
+                <VideoOverlay className="bg-red-600">
+                  <div className="font-bold text-9xl text-yellow-400  animate-pulse select-none">☭</div>
+                </VideoOverlay>
+            }
+            {
+              isVideoError &&
+                <VideoOverlay className="bg-gray-100 text-gray-500">
+                  <div>載入失敗 🥲</div>
+                  <a
+                    href="#"
+                    onClick={() => location.reload()}
+                    className="underline"
+                  >重試</a>
+                </VideoOverlay>
+            }
           </div>
         </div>
       </div>

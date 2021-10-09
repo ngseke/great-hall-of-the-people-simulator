@@ -2,9 +2,9 @@ import React from 'react'
 
 export default function Button ({ voting, ...props }: { voting?: boolean } & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>) {
   const content = voting
-    ? <>
+    ? <span className="animate-pulse">
       表決中...
-    </>
+    </span>
     : <>
       <span className="inline-block text-yellow-300 transform scale-[2] mr-3">☭</span>
       開始表決
