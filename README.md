@@ -1,6 +1,6 @@
 ## Todos
 
-- [ ] Install Tailwind CSS
+- [x] Install Tailwind CSS
 - [ ] Styles
 - [ ] Opening Image
 - [ ] Favicon
