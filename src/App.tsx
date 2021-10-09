@@ -48,15 +48,24 @@ export default function App () {
         <Title/>
         <div className="block lg:flex items-start">
           <Card className="lg:w-[700px] mb-6 lg:mb-0">
-            <div className="flex flex-col pr-0 lg:pr-12">
+            <form
+              className="flex flex-col pr-0 lg:pr-12"
+              onSubmit={(e) => {
+                e.preventDefault()
+                play()
+              }}
+            >
               <Field
                 value={message}
                 onChange={e => setMessage(e.target.value)}
               />
               <div className="flex justify-start lg:justify-end">
-                <Button onClick={play} voting={isVoting}/>
+                <Button
+                  disabled={!message || isVoting}
+                  voting={isVoting}
+                />
               </div>
-            </div>
+            </form>
           </Card>
           <div className="transform lg:-translate-x-10 lg:translate-y-10">
             <video

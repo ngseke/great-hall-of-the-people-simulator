@@ -5,6 +5,7 @@ export default function Field (props: React.DetailedHTMLProps<React.TextareaHTML
     <textarea
       rows={3}
       className="bg-gray-100 outline-none p-4 w-full rounded-lg text-lg mb-4"
+      placeholder="提案內容..."
       {...props}
     />
   )

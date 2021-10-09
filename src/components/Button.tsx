@@ -12,9 +12,8 @@ export default function Button ({ voting, ...props }: { voting?: boolean } & Rea
 
   return (
     <button
-      type="button"
+      type="submit"
       className="text-white bg-red-600 font-bold inline-block py-3 px-5 w-full sm:w-auto min-w-[16rem] rounded-lg hover:shadow-lg transition duration-300 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 select-none"
-      disabled={voting}
       {...props}
     >
       {content}
