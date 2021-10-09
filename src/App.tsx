@@ -14,17 +14,24 @@ export default function App () {
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
 
-  const play = async () => {
-    if (videoRef.current) {
-      setIsVoting(true)
-      videoRef.current.play()
-      videoRef.current.pause()
-      videoRef.current.currentTime = 0
-      await speak(new SpeechSynthesisUtterance(message))
+  const initVideo = () => {
+    if (!videoRef.current) return
+    videoRef.current.play()
+    videoRef.current.pause()
+    videoRef.current.currentTime = 0
+  }
 
-      setIsPlaying(true)
-      await videoRef.current.play()
-    }
+  useEffect(initVideo, [])
+
+  const play = async () => {
+    if (!videoRef.current) return
+
+    setIsVoting(true)
+    initVideo()
+    await speak(new SpeechSynthesisUtterance(message))
+
+    setIsPlaying(true)
+    await videoRef.current.play()
   }
 
   const handleVideoEnded = () => {
