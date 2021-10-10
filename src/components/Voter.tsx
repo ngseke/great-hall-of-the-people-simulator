@@ -38,7 +38,7 @@ export default function Voter () {
 
     setIsVoting(true)
     initVideo()
-    await speak(new SpeechSynthesisUtterance(message as string))
+    await speak(new SpeechSynthesisUtterance(message))
 
     setIsPlaying(true)
     await videoRef.current.play()
