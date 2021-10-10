@@ -92,6 +92,7 @@ export default function Voter () {
             </VideoOverlay>
             <video
               playsInline
+              preload="auto"
               ref={videoRef}
               {...size}
               onLoadStart={() => setIsVideoLoading(true)}
