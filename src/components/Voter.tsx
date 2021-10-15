@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 
 import Button from './Button'
@@ -24,14 +24,15 @@ export default function Voter () {
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
 
-  const initVideo = () => {
+  const initVideo = useCallback(async () => {
     if (!videoRef.current) return
-    videoRef.current.play()
+    videoRef.current.muted = false
+    await videoRef.current.play()
     videoRef.current.pause()
     videoRef.current.currentTime = 0
-  }
+  }, [])
 
-  useEffect(initVideo, [])
+  useEffect(() => { initVideo() }, [initVideo])
 
   const play = async () => {
     if (!videoRef.current) return
@@ -55,27 +56,39 @@ export default function Voter () {
       <div className="container flex-1 py-6 sm:py-8 px-4 space-y-6">
         <Title/>
         <div className="flex flex-wrap justify-center items-start">
-          <div className="flex-1">
-            <Card className="mb-6 lg:mb-0">
-              <form
-                className="flex flex-col pr-0 lg:pr-12"
-                onSubmit={(e) => {
-                  e.preventDefault()
-                  play()
-                }}
-              >
-                <Field
-                  value={message}
-                  onChange={e => setMessage(e.target.value)}
-                />
-                <div className="flex justify-start lg:justify-end">
-                  <Button
-                    disabled={!message || isVoting || isVideoLoading}
-                    voting={isVoting}
-                  />
-                </div>
-              </form>
-            </Card>
+          <div className="flex-1 mb-6 lg:mb-0">
+            {
+              !isVoting &&
+                <Card>
+                  <form
+                    className="flex flex-col pr-0 lg:pr-12"
+                    onSubmit={(e) => {
+                      e.preventDefault()
+                      play()
+                    }}
+                  >
+                    <Field
+                      value={message}
+                      onChange={e => setMessage(e.target.value)}
+                    />
+                    <div className="flex justify-start lg:justify-end">
+                      <Button
+                        disabled={!message || isVoting || isVideoLoading}
+                        voting={isVoting}
+                      />
+                    </div>
+                  </form>
+                </Card>
+            }
+            {
+              isVoting &&
+                <Card red>
+                  <div className="flex flex-col items-start pr-0 lg:pr-12 text-yellow-300">
+                    <div className="text-3xl transform scale-150 select-none">❝</div>
+                    <div className="pl-4 text-2xl lg:text-3xl leading-8 lg:leading-10 font-serif">{message}</div>
+                  </div>
+                </Card>
+            }
           </div>
           <div className="w-full h-auto lg:w-[500px] lg:h-[281.25px] 2xl:w-[600px] 2xl:h-[337.5px] relative transform lg:-translate-x-10 lg:translate-y-10 rounded-lg overflow-hidden shadow-xl">
             <VideoOverlay
@@ -92,6 +105,7 @@ export default function Voter () {
             </VideoOverlay>
             <video
               playsInline
+              muted
               preload="auto"
               ref={videoRef}
               {...size}

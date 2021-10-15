@@ -1,10 +1,21 @@
 import clsx from 'clsx'
 import React from 'react'
 
-export default function Card ({ className, ...props }: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>) {
+export default function Card (
+  { className, red, ...props }:
+    React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> &
+    { red?: boolean }
+) {
   return (
     <div
-      className={clsx('bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6', className)}
+      className={clsx(
+        'rounded-xl shadow-lg p-6',
+        {
+          'bg-white dark:bg-gray-900': !red,
+          'bg-red-600 dark:bg-red-700': red,
+        },
+        className
+      )}
       {...props}
     />
   )
