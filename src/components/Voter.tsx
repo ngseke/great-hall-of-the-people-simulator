@@ -11,6 +11,8 @@ import useMessageState from '../hooks/useMessageState'
 import VideoOverlay from './VideoOverlay'
 
 import opening from '../assests/opening.png'
+import useLogs from '../hooks/useLogs'
+import History from './History'
 
 export default function Voter () {
   const [isVideoLoading, setIsVideoLoading] = useState(false)
@@ -34,7 +36,9 @@ export default function Voter () {
 
   useEffect(() => { initVideo() }, [initVideo])
 
-  const play = async () => {
+  const { pushLog } = useLogs()
+
+  const submit = async () => {
     if (!videoRef.current) return
 
     setIsVoting(true)
@@ -46,7 +50,7 @@ export default function Voter () {
   }
 
   useEffect(() => {
-    if (!isPlaying) setIsVoting(false)
+    if (!isPlaying) { setIsVoting(false) }
   }, [isPlaying])
 
   const size = { width: 1920, height: 1080 }
@@ -64,7 +68,7 @@ export default function Voter () {
                     className="flex flex-col pr-0 lg:pr-12"
                     onSubmit={(e) => {
                       e.preventDefault()
-                      play()
+                      submit()
                     }}
                   >
                     <Field
@@ -111,7 +115,10 @@ export default function Voter () {
               {...size}
               onLoadStart={() => setIsVideoLoading(true)}
               onLoadedData={() => setIsVideoLoading(false)}
-              onEnded={() => setIsPlaying(false)}
+              onEnded={() => {
+                setIsPlaying(false)
+                pushLog(message)
+              }}
               onError={() => setIsVideoError(true)}
               className="w-full h-full bg-white"
             >
@@ -136,7 +143,10 @@ export default function Voter () {
             }
           </div>
         </div>
+        <div className="lg:pb-10"/>
+        <History/>
       </div>
+
       <Footer/>
     </div>
   )
