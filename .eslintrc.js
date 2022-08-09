@@ -6,6 +6,7 @@ module.exports = {
   extends: [
     'plugin:react/recommended',
     'standard',
+    'plugin:tailwindcss/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -19,6 +20,7 @@ module.exports = {
     'react',
     '@typescript-eslint',
     'react-hooks',
+    'tailwindcss',
   ],
   rules: {
     'no-unused-vars': 'warn',
