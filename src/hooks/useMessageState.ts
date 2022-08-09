@@ -4,7 +4,7 @@ import useQuery from './useQuery'
 
 const queryKey = 'm'
 
-export default function (initialState: string) {
+export default function useMessageState (initialState: string) {
   const { pathname } = useLocation()
   const query = useQuery()
   const history = useHistory()
