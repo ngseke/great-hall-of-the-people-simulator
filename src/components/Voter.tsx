@@ -56,11 +56,11 @@ export default function Voter () {
   const size = { width: 1920, height: 1080 }
 
   return (
-    <div className="flex flex-col min-h-[100vh]">
-      <div className="container flex-1 py-6 sm:py-8 px-4 space-y-6">
+    <div className="flex min-h-[100vh] flex-col">
+      <div className="container flex-1 space-y-6 py-6 px-4 sm:py-8">
         <Title/>
-        <div className="flex flex-wrap justify-center items-start">
-          <div className="flex-1 mb-6 lg:mb-0">
+        <div className="flex flex-wrap items-start justify-center">
+          <div className="mb-6 flex-1 lg:mb-0">
             {
               !isVoting &&
                 <Card>
@@ -87,14 +87,14 @@ export default function Voter () {
             {
               isVoting &&
                 <Card red>
-                  <div className="flex flex-col items-start pr-0 lg:pr-12 text-yellow-300">
-                    <div className="text-3xl transform scale-150 select-none">❝</div>
-                    <div className="pl-4 text-2xl lg:text-3xl leading-8 lg:leading-10 font-serif">{message}</div>
+                  <div className="flex flex-col items-start pr-0 text-yellow-300 lg:pr-12">
+                    <div className="scale-150 select-none text-3xl">❝</div>
+                    <div className="pl-4 font-serif text-2xl leading-8 lg:text-3xl lg:leading-10">{message}</div>
                   </div>
                 </Card>
             }
           </div>
-          <div className="w-full h-auto lg:w-[500px] lg:h-[281.25px] 2xl:w-[600px] 2xl:h-[337.5px] relative transform lg:-translate-x-10 lg:translate-y-10 rounded-lg overflow-hidden shadow-xl">
+          <div className="relative h-auto w-full overflow-hidden rounded-lg shadow-xl lg:h-[281.25px] lg:w-[500px] lg:-translate-x-10 lg:translate-y-10 2xl:h-[337.5px] 2xl:w-[600px]">
             <VideoOverlay
               className={clsx('transition duration-700', {
                 'opacity-0': isPlaying || isVideoLoading,
@@ -103,7 +103,7 @@ export default function Voter () {
             >
               <img
                 src={opening}
-                className="w-full h-full"
+                className="h-full w-full"
                 {...size}
               />
             </VideoOverlay>
@@ -120,14 +120,14 @@ export default function Voter () {
                 pushLog(message)
               }}
               onError={() => setIsVideoError(true)}
-              className="w-full h-full bg-white"
+              className="h-full w-full bg-white"
             >
               <source src="./voting.mp4" type="video/mp4"/>
             </video>
             {
               isVideoLoading &&
                 <VideoOverlay className="bg-red-600">
-                  <div className="font-bold text-9xl text-yellow-400  animate-pulse select-none">☭</div>
+                  <div className="animate-pulse select-none text-9xl  font-bold text-yellow-400">☭</div>
                 </VideoOverlay>
             }
             {

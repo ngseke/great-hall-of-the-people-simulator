@@ -9,7 +9,7 @@ export default function Card (
   return (
     <div
       className={clsx(
-        'rounded-xl shadow-lg p-6',
+        'rounded-xl p-6 shadow-lg',
         {
           'bg-white dark:bg-gray-900': !red,
           'bg-red-600 dark:bg-red-700': red,

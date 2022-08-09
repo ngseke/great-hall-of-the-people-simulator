@@ -6,14 +6,14 @@ export default function Button ({ voting, ...props }: { voting?: boolean } & Rea
       表決中...
     </span>
     : <>
-      <span className="inline-block text-yellow-300 transform scale-[2] mr-3">☭</span>
+      <span className="mr-3 inline-block scale-[2] text-yellow-300">☭</span>
       開始表決
     </>
 
   return (
     <button
       type="submit"
-      className="text-white bg-red-600 font-bold inline-block py-3 px-5 w-full sm:w-auto min-w-[16rem] rounded-lg hover:shadow-lg transition duration-300 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 select-none"
+      className="inline-block w-full min-w-[16rem] cursor-pointer select-none rounded-lg bg-red-600 py-3 px-5 font-bold text-white transition duration-300 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
       {...props}
     >
       {content}

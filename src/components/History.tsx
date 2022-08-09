@@ -9,10 +9,10 @@ export default function History () {
 
   return (
     <div className="flex justify-center text-gray-700 dark:text-gray-300">
-      <div className="flex-initial w-full lg:w-2/3 xl:w-1/2 ">
+      <div className="w-full flex-initial lg:w-2/3 xl:w-1/2 ">
         <Card>
-          <h2 className="text-3xl font-semibold lg:leading-10 mb-4">歷史表決記錄</h2>
-          <div className="space-y-3 mb-4">
+          <h2 className="mb-4 text-3xl font-semibold lg:leading-10">歷史表決記錄</h2>
+          <div className="mb-4 space-y-3">
             {
               [...logs].reverse().splice(0, 5).map((log) => (
                 <LogItem log={log} key={log.id}/>

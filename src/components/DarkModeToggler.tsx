@@ -14,7 +14,7 @@ export default function DarkModeToggler () {
       type="button"
       onClick={() => toggleDarkMode(!isDarkMode)}
     >
-      <img className="w-6 h-6" src={isDarkMode ? sun : moon}/>
+      <img className="h-6 w-6" src={isDarkMode ? sun : moon}/>
     </button>
   )
 }
