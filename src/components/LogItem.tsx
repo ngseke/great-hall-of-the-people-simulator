@@ -17,7 +17,7 @@ export default function LogItem ({ log }: { log: Log }) {
   return (
     <Card red>
       <div className="flex items-center text-white">
-        <div className="grow">
+        <div className="flex-1">
           <div className="mb-1 flex">
             {formattedDate}
           </div>
@@ -25,7 +25,7 @@ export default function LogItem ({ log }: { log: Log }) {
             {log.message}
           </div>
         </div>
-        <div className="ml-6 flex shrink-0 flex-col items-center">
+        <div className="ml-6 flex flex-none flex-col items-center space-y-1">
           <span className="inline-block scale-125 text-3xl">👏</span>
           <span className="text-lg font-bold">通過</span>
         </div>
