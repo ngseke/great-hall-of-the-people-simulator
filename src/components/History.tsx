@@ -21,7 +21,7 @@ export default function History () {
           </div>
           <a
             href="#"
-            className="underline"
+            className="hidden underline"
             onClick={(e) => {
               e.preventDefault()
               clearLogs()

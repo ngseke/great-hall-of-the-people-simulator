@@ -13,12 +13,17 @@ import VideoOverlay from './VideoOverlay'
 import opening from '../assests/opening.png'
 import useLogs from '../hooks/useLogs'
 import History from './History'
+import Step from './Step'
+import Quote from './Quote'
 
 export default function Voter () {
   const [isVideoLoading, setIsVideoLoading] = useState(false)
   const [isVideoError, setIsVideoError] = useState(false)
   const [isVoting, setIsVoting] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [currentTime, setCurrentTime] = useState(-1)
+
+  const isPassed = currentTime >= 20
 
   const { message, setMessage } = useMessageState(
     '大會要求全黨以「習近平新時代中國特色社會主義思想」統一思想和行動'
@@ -50,10 +55,21 @@ export default function Voter () {
   }
 
   useEffect(() => {
-    if (!isPlaying) { setIsVoting(false) }
+    if (!isPlaying) {
+      setIsVoting(false)
+      setCurrentTime(-1)
+    }
   }, [isPlaying])
 
   const size = { width: 1920, height: 1080 }
+
+  const step = (() => {
+    if (isVoting && !isPlaying) return 1
+    if (isPlaying && !isPassed) return 2
+    if (isPlaying && isPassed) return 3
+
+    return -1
+  })()
 
   return (
     <div className="flex min-h-[100vh] flex-col">
@@ -85,13 +101,17 @@ export default function Voter () {
                 </Card>
             }
             {
-              isVoting &&
+              isVoting && (
                 <Card red>
-                  <div className="flex flex-col items-start pr-0 text-yellow-300 lg:pr-12">
-                    <div className="scale-150 select-none text-3xl">❝</div>
-                    <div className="pl-4 font-serif text-2xl leading-8 lg:text-3xl lg:leading-10">{message}</div>
+                  <div className="space-y-6">
+                    <Step index={1} name="提案" active={step === 1}>
+                      <Quote className="lg:pr-12">{message}</Quote>
+                    </Step>
+                    <Step index={2} name="表決" active={step === 2}/>
+                    <Step index={3} name="通過" active={step === 3}/>
                   </div>
                 </Card>
+              )
             }
           </div>
           <div className="relative h-auto w-full overflow-hidden rounded-lg shadow-xl lg:h-[281.25px] lg:w-[500px] lg:-translate-x-10 lg:translate-y-10 2xl:h-[337.5px] 2xl:w-[600px]">
@@ -120,6 +140,7 @@ export default function Voter () {
                 pushLog(message)
               }}
               onError={() => setIsVideoError(true)}
+              onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
               className="h-full w-full bg-white"
             >
               <source src="./voting.mp4" type="video/mp4"/>
@@ -127,7 +148,7 @@ export default function Voter () {
             {
               isVideoLoading &&
                 <VideoOverlay className="bg-red-600">
-                  <div className="animate-pulse select-none text-9xl  font-bold text-yellow-400">☭</div>
+                  <div className="animate-pulse select-none text-9xl font-bold text-yellow-400">☭</div>
                 </VideoOverlay>
             }
             {
